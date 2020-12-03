@@ -16,6 +16,12 @@ python3 -m pip install --user virtualenv
 python3 -m venv env
 ```
 
+### This project uses MySQL database , first you have to setup MySQL database. 
+```
+Download XAMPP from [here](https://www.apachefriends.org/download.html)
+Start MySQL server.
+```
+
 #### Starting Virtual Env. and Setting up the Project
 Below are the commands for project Initialization into your local computer
 #### For Windows
@@ -42,4 +48,9 @@ python3 manage.py runserver
 ### Leaving the virtual environment
 ```
 deactivate
+```
+
+### To update requirements file 
+```
+pip freeze > requirements.txt
 ```
