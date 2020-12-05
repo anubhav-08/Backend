@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #third party
     'rest_framework',
+    'django_crontab',
 
     #local
     'problem',
@@ -83,6 +84,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'codedigger_django_db',
+        # 'NAME': 'spoj',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
@@ -124,7 +126,7 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -137,3 +139,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#CronJob settings
+CRONJOBS = [
+    ('55 10 * * *', 'problem.cron.my_cron_job')
+]
+
+
+#EMAIL SETTING
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "shivamsinghal5170@gmail.com"
+EMAIL_HOST_PASSWORD = "1012@ejoty"
