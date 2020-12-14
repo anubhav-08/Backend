@@ -1,9 +1,9 @@
-from .final_spoj  import scraper
+from .scraper.spoj import scraper
 from django.shortcuts import render
 from codedigger.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail	
 
-def my_cron_job():
+def update_spoj():
     #checking if cronjobs has started , you will get a mail
     subject = 'SPOJ Scraping Started'
     message = 'Hope you are enjoying our Problems'

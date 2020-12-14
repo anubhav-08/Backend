@@ -15,7 +15,7 @@ class Problem(models.Model):
         ('H' , 'Hard'),
         ('C' , 'Challenge')
     )
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200 , blank = True , null = True)
     prob_id = models.CharField(max_length=20)
     url = models.CharField(max_length=200)
     tags = models.CharField(max_length = 500, blank = True , null= True)

@@ -5,7 +5,6 @@ from .models import Problem
 from .serializers import ProbSerializer
 import json
 
-from .cron import my_cron_job
 
 class StatusAPIView(
     mixins.CreateModelMixin,
@@ -25,6 +24,5 @@ class StatusAPIView(
             qs = qs.filter(prob_id__icontains = prob)
         if tags is not None:
             qs = qs.filter(tags__icontains = tags)
-        #my_cron_job()
         return qs
        

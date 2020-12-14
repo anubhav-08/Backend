@@ -151,7 +151,8 @@ STATIC_URL = '/static/'
 
 #CronJob settings
 CRONJOBS = [
-    ('55 10 * * *', 'problem.cron.my_cron_job')
+    ('0 0 * * *', 'problem.cron.update_spoj'),
+    ('0 1 * * *', 'codeforces.cron.update_codeforces'),
 ]
 
 
