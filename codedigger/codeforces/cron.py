@@ -3,6 +3,7 @@ import json
 from django.db import connection
 from django.core.exceptions import ObjectDoesNotExist
 from .models import organization , country , user , contest , user_contest_rank , organization_contest_participation, country_contest_participation
+from problem.models import Problem 
 
 def alter_tables():	
 	cursor = connection.cursor()
@@ -160,3 +161,7 @@ def codeforces_update_contest():
 				ucr.countryRank = cntry_contest_participation.number
 
 			ucr.save()
+
+#def codeforces_update_problems():
+	# check whether we have updated the problems of a particular contest , 
+	# if no , update the problems , else not .. 

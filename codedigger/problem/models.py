@@ -1,39 +1,30 @@
 from django.db import models
 
-from enum import Enum
-from django_enum_choices.fields import EnumChoiceField
-
-
-class platform(Enum):
-    Codeforces = 0
-    Codechef = 1
-    Spoj = 2
-    Uva = 3
-    Atcoder = 4
-
-class difficulty(Enum):
-    Very_Easy = 0
-    Easy = 1
-    Medium = 2
-    Hard = 3
-    Super_Hard = 4
-    Extreme_Hard = 5
-
-
 class Problem(models.Model):
-    name = models.CharField(max_length=500)
-    prob_id = models.CharField(max_length=500)
-    url = models.CharField(max_length=500)
-    tags = models.CharField(max_length = 500,default = "")
-    contest_id = models.CharField(max_length=100,default="")
-    index = models.CharField(max_length=5,default="")
-    rating = models.CharField(max_length=10,default="")
-    #platform = models.CharField(max_length=100,default="")
-    platform = EnumChoiceField(platform)
-    # contest id , index(a,b,c,d...) , name, tag, rating, platform
-    # difficulty (enum)
-    # editorial link (official / video editorial)
-    # video editorial 
+    PLATFORM = (
+        ('F' , 'Codeforces'),
+        ('C' , 'Codechef'),
+        ('S' , 'Spoj'),
+        ('U' , 'Uva'),
+        ('A' , 'Atcoder') 
+    )
+    DIFFICULTY = (
+        ('B' , 'Beginner'),
+        ('E' , 'Easy'),
+        ('M' , 'Medium'),
+        ('H' , 'Hard'),
+        ('C' , 'Challenge')
+    )
+    name = models.CharField(max_length=200)
+    prob_id = models.CharField(max_length=20)
+    url = models.CharField(max_length=200)
+    tags = models.CharField(max_length = 500, blank = True , null= True)
+    contest_id = models.CharField(max_length=20, blank = True , null = True)
+    index = models.CharField(max_length=5, blank = True , null = True)
+    rating = models.CharField(max_length=10, blank = True , null = True)
+    platform = models.CharField(max_length = 1 ,choices = PLATFORM)
+    difficulty = models.CharField(max_length = 1 , choices = DIFFICULTY , blank = True , null = True) 
+    editorial = models.CharField(max_length = 200 , blank = True , null = True)
 
     class Meta:
         ordering = ['name']
