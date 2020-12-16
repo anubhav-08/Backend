@@ -19,8 +19,6 @@ class StatusAPIView(
 
     #running queries and stuff
     def get_queryset(self):
-
-        update_atcoder_problems()
         
         qs = Problem.objects.all()
         prob = self.request.GET.get('prob_id')
