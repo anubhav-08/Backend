@@ -8,7 +8,7 @@ import os,json,django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "codedigger.settings")
 django.setup()
 from problem.models import Problem
-platform = "spoj"
+platform = "S"
 
 def scraper():
     field_names= ['name', 'link', 'id', 'tags']
@@ -71,7 +71,7 @@ def scraper():
             urlprob = default + href
             # scrape contest id and index for other sites then:
             id += contest_id + index
-            qs = Problem.objects.filter(prob_id=id)
+            qs = Problem.objects.filter(prob_id=id , platform = 'S')
             if not qs:
                 r1 = requests.get(urlprob)
                 soup1 = BeautifulSoup(r1.content, 'html5lib')
@@ -106,7 +106,7 @@ def scraper():
             id = href[10:]
             urlprob = default + href
             id += contest_id + index
-            qs = Problem.objects.filter(prob_id=id)
+            qs = Problem.objects.filter(prob_id=id, platform = 'S')
             if not qs:
                 r1 = requests.get(urlprob)
                 soup1 = BeautifulSoup(r1.content, 'html5lib')
@@ -142,7 +142,7 @@ def scraper():
             id = href[10:]
             urlprob = default + href
             id += contest_id + index
-            qs = Problem.objects.filter(prob_id=id)
+            qs = Problem.objects.filter(prob_id=id, platform = 'S')
             if not qs:
                 r1 = requests.get(urlprob)
                 soup1 = BeautifulSoup(r1.content, 'html5lib')
@@ -178,7 +178,7 @@ def scraper():
             id = href[10:]
             urlprob = default + href
             id += contest_id + index
-            qs = Problem.objects.filter(prob_id=id)
+            qs = Problem.objects.filter(prob_id=id, platform = 'S')
             if not qs:
                 r1 = requests.get(urlprob)
                 soup1 = BeautifulSoup(r1.content, 'html5lib')
@@ -214,7 +214,7 @@ def scraper():
             id = href[10:]
             urlprob = default + href
             id += contest_id + index
-            qs = Problem.objects.filter(prob_id=id)
+            qs = Problem.objects.filter(prob_id=id, platform = 'S')
             if not qs:
                 r1 = requests.get(urlprob)
                 soup1 = BeautifulSoup(r1.content, 'html5lib')
@@ -244,7 +244,7 @@ def scraper():
         id = href[10:]
         urlprob = default + href
         id += contest_id + index
-        qs = Problem.objects.filter(prob_id=id)
+        qs = Problem.objects.filter(prob_id=id, platform = 'S')
         if not qs:
             r1 = requests.get(urlprob)
             soup1 = BeautifulSoup(r1.content, 'html5lib')

@@ -6,7 +6,7 @@ from .cron import codeforces_update_users , codeforces_update_contest , alter_ta
 # Create your views here.
 def index(request):
     alter_tables()
-    codeforces_update_problems()
+    #codeforces_update_problems()
     return HttpResponse("OKAY")
 
 def detail(request, question_id):

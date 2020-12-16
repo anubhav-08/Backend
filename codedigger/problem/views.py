@@ -5,6 +5,8 @@ from .models import Problem
 from .serializers import ProbSerializer
 import json
 
+from .scraper.atcoder import update_atcoder_problems
+
 
 class StatusAPIView(
     mixins.CreateModelMixin,
@@ -17,6 +19,9 @@ class StatusAPIView(
 
     #running queries and stuff
     def get_queryset(self):
+
+        update_atcoder_problems()
+        
         qs = Problem.objects.all()
         prob = self.request.GET.get('prob_id')
         tags = self.request.GET.get('tags')
