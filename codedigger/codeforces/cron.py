@@ -44,13 +44,13 @@ def codeforces_update_users():
 	if(data["status"] != 'OK') :
 		return 
 
-	user.objects.all().delete()
-	country.objects.all().delete()
-	organization.objects.all().delete()
 	rank = 0
-	for codeforces_user in data["result"]:
-		newUser = user()
+	organization.objects.all().update(current = 0)
+	country.objects.all().update(current = 0)
 
+	for codeforces_user in data["result"]:
+
+		newUser,created = user.objects.get_or_create(handle = codeforces_user['handle'])
 		name = ""
 		if 'firstName' in codeforces_user:
 			name += codeforces_user['firstName']
@@ -59,11 +59,9 @@ def codeforces_update_users():
 			name += codeforces_user['lastName']
 
 		if len(name) > 100 : 
-			newUser.name = name[:100]
-		else :
-			newUser.name = name
+			name = name[:100]
 
-		newUser.handle = codeforces_user['handle']
+		newUser.name = name		
 		newUser.rating = codeforces_user['rating']
 		newUser.maxRating = codeforces_user['maxRating']
 		newUser.rank = codeforces_user['rank']
@@ -76,25 +74,35 @@ def codeforces_update_users():
 
 			obj, created = country.objects.get_or_create(
 				name=  codeforces_user['country'] ,
-				defaults={'number': '0'}, 
-				)
+				defaults={
+					'current': '0',
+					'total' : '0'
+				}
+			)
 
-			obj.number = str(int(obj.number) + 1)
+			obj.current = str(int(obj.current) + 1)
+			if int(obj.current) > int(obj.total) :
+				obj.total = obj.current
 			obj.save()
 			newUser.country = obj
-			newUser.countryRank = obj.number
+			newUser.countryRank = obj.current
 
 		if 'organization' in codeforces_user :
 
 			obj, created = organization.objects.get_or_create(
 				name=  codeforces_user['organization'] ,
-				defaults={'number': '0'}, 
-				)
+				defaults={
+					'current': '0',
+					'total' : '0'
+				}
+			)
 
-			obj.number = str(int(obj.number) + 1)
+			obj.current = str(int(obj.current) + 1)
+			if int(obj.current) > int(obj.total) :
+				obj.total = obj.current
 			obj.save()
 			newUser.organization = obj
-			newUser.organizationRank = obj.number
+			newUser.organizationRank = obj.current
 
 		newUser.save()
 	return 
@@ -201,9 +209,8 @@ def codeforces_update_contest():
 	if(data["status"] != 'OK') :
 		return 
 
-	user_contest_rank.objects.all().delete()
-	organization_contest_participation.objects.all().delete()
-	country_contest_participation.objects.all().delete()
+	organization_contest_participation.objects.all().update(current = 0)
+	country_contest_participation.objects.all().update(current = 0)
 
 	for codeforces_contest in data["result"]:
 
@@ -237,10 +244,9 @@ def codeforces_update_contest():
 			except ObjectDoesNotExist:
 				continue
 
-			ucr = user_contest_rank()
+			ucr,created = user_contest_rank.objects.get_or_create(user = contest_user , 
+															contest = new_contest)
 
-			ucr.user = contest_user
-			ucr.contest = new_contest
 			ucr.worldRank = rank
 
 			if contest_user.organization : 
@@ -252,13 +258,16 @@ def codeforces_update_contest():
 					organization = contest_user_org,
 					contest = new_contest,
 					defaults= {
-						'number' : '0'
+						'current' : '0',
+						'total' : '0'
 					}
 				)
-				org_contest_participation.number = str(int(org_contest_participation.number) + 1)
-				org_contest_participation.save()
+				org_contest_participation.current = str(int(org_contest_participation.current) + 1)
+				if int(org_contest_participation.current) > int(org_contest_participation.total) :
+					org_contest_participation.total = org_contest_participation.current
 
-				ucr.organizationRank = org_contest_participation.number
+				org_contest_participation.save()
+				ucr.organizationRank = org_contest_participation.current
 
 			if contest_user.country : 
 
@@ -270,13 +279,17 @@ def codeforces_update_contest():
 					country = contest_user_country,
 					contest = new_contest,
 					defaults= {
-						'number' : '0'
+						'current' : '0',
+						'total': '0'
 					}
 				)
-				cntry_contest_participation.number = str(int(cntry_contest_participation.number) + 1)
+				cntry_contest_participation.current = str(int(cntry_contest_participation.current) + 1)
+				
+				if int(cntry_contest_participation.current) > int(cntry_contest_participation.total) :
+					cntry_contest_participation.total = cntry_contest_participation.current
+				
 				cntry_contest_participation.save()
-
-				ucr.countryRank = cntry_contest_participation.number
+				ucr.countryRank = cntry_contest_participation.current
 
 			ucr.save()
 	return

@@ -2,13 +2,15 @@ from django.db import models
 
 class organization(models.Model):
 	name = models.CharField(max_length=50 , blank=True, null=True,)
-	number = models.CharField(max_length=6)
+	current = models.CharField(max_length=6)
+	total = models.CharField(max_length=6)
 	def __str__(self):
 		return self.name
 
 class country(models.Model):
 	name = models.CharField(max_length=50 , blank=True, null=True,)
-	number = models.CharField(max_length=6)
+	current = models.CharField(max_length=6)
+	total = models.CharField(max_length=6)
 	def __str__(self):
 		return self.name
     
@@ -56,7 +58,8 @@ class user_contest_rank(models.Model):
 class organization_contest_participation(models.Model):
 	organization = models.ForeignKey(organization , on_delete=models.CASCADE)
 	contest = models.ForeignKey(contest , on_delete=models.CASCADE)
-	number = models.CharField(max_length=6)
+	current = models.CharField(max_length=6)
+	total = models.CharField(max_length=6)
 
 	def __str__(self):
 		return self.organization.name + self.contest.name
@@ -64,8 +67,9 @@ class organization_contest_participation(models.Model):
 class country_contest_participation(models.Model):
 	country = models.ForeignKey(country , on_delete=models.CASCADE)
 	contest = models.ForeignKey(contest , on_delete=models.CASCADE)
-	number = models.CharField(max_length=6)
-
+	current = models.CharField(max_length=6)
+	total = models.CharField(max_length=6)
+	
 	def __str__(self):
 		return self.country.name + self.contest.name
 
